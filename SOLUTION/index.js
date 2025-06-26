@@ -157,6 +157,31 @@ app.delete("/api/posts/:id", async (req, res) => {
   }
 });
 
+// BONUS: Search blog posts by title
+// GET - /api/posts/search - search blog posts by title
+app.get("/api/posts/search", async (req, res) => {
+  try {
+    // Read the data file
+    const data = await fs.readFile(DATA_FILE, "utf8");
+    // Parse the JSON data
+    const blogData = JSON.parse(data);
+    // Get the search query from the request query parameters
+    const searchQuery = req.query.title || "";
+    // Filter the blog posts by title
+    const filteredPosts = blogData.blogPosts.filter((post) =>
+      post.blogTitle.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    // Respond with the filtered blog posts
+    res.json(filteredPosts);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      res.json([]);
+    } else {
+      res.status(500).json({ error: "Failed to search posts" });
+    }
+  }
+}); 
+
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "Blog API is running" });

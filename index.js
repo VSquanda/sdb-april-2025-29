@@ -115,7 +115,7 @@ app.put("/api/posts/:id", async (req, res) => {
   }
 });
 
-// DELETE blog post
+// DELETE - /api/posts/:id - delete blog post
 app.delete("/api/posts/:id", async (req, res) => {
   try {
     // Read the data file
@@ -139,6 +139,29 @@ app.delete("/api/posts/:id", async (req, res) => {
       res.status(404).json({ error: "Post not found" });
     } else {
       res.status(500).json({ error: "Failed to delete post" });
+    }
+  }
+});
+
+// BONUS: Search blog posts by title
+// GET - /api/posts/search - search blog posts by title
+app.get("/api/posts/search", async (req, res) => {
+  try {
+    // Read the data file
+
+    // Parse the JSON data
+
+    // Get the search query from the request query parameters
+
+    // Filter the blog posts by title
+
+    // Respond with the filtered blog posts
+    
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      res.json([]);
+    } else {
+      res.status(500).json({ error: "Failed to search posts" });
     }
   }
 });
